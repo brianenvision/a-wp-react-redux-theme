@@ -14,6 +14,7 @@ export const ROUTER = 'ROUTER';
 const WP_API_ENDPOINT = `${RT_API.root}wp/v2`;
 const PRETTYPERMALINK_ENDPOINT = `${RT_API.root}react-theme/v1/prettyPermalink/`;
 const MENU_ENDPOINT = `${RT_API.root}react-theme/v1/menu-locations/`;
+const FRONTPAGE_ENDPOINT = `${RT_API.root}react-theme/v1/front-page/`;
 
 export function fetchPosts(pageNum = 1, post_type = 'posts') {
     return function (dispatch) {
@@ -66,6 +67,18 @@ export function getTaxIdFromSlug(tax, slug) {
 export function fetchPost(prettyPermalink) {
     return function (dispatch) {
         axios.get(`${PRETTYPERMALINK_ENDPOINT}${prettyPermalink}`)
+            .then(response => {
+                dispatch({
+                    type: FETCH_POST,
+                    payload: [response.data]
+                });
+            });
+    }
+}
+
+export function fetchFrontPage() {
+    return function (dispatch) {
+        axios.get(`${FRONTPAGE_ENDPOINT}`)
             .then(response => {
                 dispatch({
                     type: FETCH_POST,

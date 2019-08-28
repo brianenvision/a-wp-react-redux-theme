@@ -34,12 +34,13 @@ import Search from './containers/search';
 import Category from './containers/category';
 import Tag from './containers/tag';
 import Single from './containers/single';
+import Home from './containers/home';
 
 ReactDom.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
 			<Switch>
-				<Route exact path="/" component={Blog}/>
+				<Route exact path="/" component={Home}/>
 				<Route path="/page/:pageNum" component={Blog}/>
 				<Route path="/search/:term" component={Search}/>
 				<Route path="/category/:slug/page/:pageNum" component={Category}/>

@@ -17,6 +17,10 @@ if ( ! class_exists( 'Pretty_Permalinks_Endpoint' ) ) :
 					'methods'  => 'GET',
 					'callback' => [ $this, 'get_post_for_url' ],
 				) );
+				register_rest_route( $namespace, '/front-page/?', array(
+					'methods'  => 'GET',
+					'callback' => [ $this, 'get_post_for_front_page' ],
+				) );
 			} );
 		}
 
@@ -27,6 +31,21 @@ if ( ! class_exists( 'Pretty_Permalinks_Endpoint' ) ) :
 		 */
 		function get_post_for_url( $data ) {
 			$post_id    = url_to_postid( $data['url'] );
+			$post_type  = get_post_type( $post_id );
+			$controller = new WP_REST_Posts_Controller( $post_type );
+			$request    = new WP_REST_Request( 'GET', "/wp/v2/{$post_type}s/$post_id" );
+			$request->set_url_params( array( 'id' => $post_id ) );
+
+			return $controller->get_item( $request );
+		}
+
+		/**
+		 * @param $data
+		 *
+		 * @return WP_Error|WP_REST_Response
+		 */
+		function get_post_for_front_page( ) {
+			$post_id = get_option( 'page_on_front' );
 			$post_type  = get_post_type( $post_id );
 			$controller = new WP_REST_Posts_Controller( $post_type );
 			$request    = new WP_REST_Request( 'GET', "/wp/v2/{$post_type}s/$post_id" );
