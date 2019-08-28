@@ -16,6 +16,7 @@ class Menu extends Component {
     renderMenu(menu) {
         if ( this.props.name === menu.name) {
             return menu.items.map(item => {
+                let classes = item.classes ? item.classes.split(" ") : [];
                 return (
                     <li key={item.ID} className="nav-item">
                         <Link className="nav-link" to={Menu.getRelativeUrl(item.url)}>{item.title}</Link>
@@ -41,6 +42,25 @@ class Menu extends Component {
                 return 'nav justify-content-center';
             default:
                 return '';
+        }
+    }
+
+    parseClasses(classes, LinkModClasses, iconClasses, depth) {
+        for (let index in classes) {
+            let className = classes[index];
+            if (/^disabled|^sr-only/i.test(className)) {
+                LinkModClasses.push(className);
+                classes.splice(index, 1);
+            } else if (/^dropdown-header|^dropdown-divider|^dropdown-item-text/i.test(className) && depth > 0) {
+                LinkModClasses.push(className);
+                classes.splice(index, 1);
+            } else if (/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i.test(className)) {
+                iconClasses.push(className);
+                classes.splice(index, 1);
+            } else if (/^glyphicon-(\S*)?|^glyphicon(\s?)$/i.test(className)) {
+                iconClasses.push(className);
+                classes.splice(index, 1);
+            }
         }
     }
 
