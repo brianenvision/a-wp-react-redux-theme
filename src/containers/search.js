@@ -9,7 +9,7 @@ import Main from '../components/main';
 import Footer from '../components/footer';
 
 class Search extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.searchSite(this.props.match.params.term);
         this.props.dispatch({
             type: ROUTER,
@@ -17,7 +17,8 @@ class Search extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
+        document.title = `Search Results - ${RT_API.siteName}`;
         if (this.props.match.params.term !== nextProps.match.params.term) {
             this.props.searchSite(nextProps.match.params.term);
             this.props.dispatch({
@@ -25,10 +26,6 @@ class Search extends Component {
                 payload: this.props.match
             });
         }
-    }
-
-    componentDidUpdate() {
-        document.title = `Search Results - ${RT_API.siteName}`;
     }
 
     render() {

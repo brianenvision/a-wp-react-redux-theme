@@ -8,18 +8,15 @@ import Main from '../components/main';
 import Footer from '../components/footer';
 
 class Home extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.fetchFrontPage(this.props.location.pathname);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
+        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
         if (this.props.location.pathname !== nextProps.location.pathname) {
             this.props.fetchPost(nextProps.location.pathname);
         }
-    }
-
-    componentDidUpdate() {
-        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
     }
 
     render() {
@@ -34,7 +31,7 @@ class Home extends Component {
 }
 
 
-function mapStateToProps({posts}) {
+function mapStateToProps({posts}) { 
     return {posts};
 }
 

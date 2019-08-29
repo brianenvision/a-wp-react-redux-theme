@@ -7,13 +7,13 @@ import {fetchTaxInfo} from '../../actions';
 import Comments from '../comments/comments';
 
 class PostFooter extends Component {
-    componentWillMount() {
+    componentDidMount() {
         if ('undefined' !== typeof this.props.tagIds && this.props.tagIds.length && this.props.isSingle) {
             this.props.fetchTaxInfo('tags', this.props.tagIds);
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
         if ((this.props.tagIds !== nextProps.tagIds || this.props.tagIds.length !== this.props.tags.length)
             && nextProps.tagIds.length && nextProps.isSingle) {
             this.props.fetchTaxInfo('tags', nextProps.tagIds);

@@ -9,7 +9,7 @@ import Main from '../components/main';
 import Footer from '../components/footer';
 
 class Blog extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.fetchPosts(this.props.match.params.pageNum || 1);
         this.props.dispatch({
            type: ROUTER,
@@ -17,7 +17,8 @@ class Blog extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
+        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
         if (this.props.match.params.pageNum !== nextProps.match.params.pageNum || this.props.location.pathname !== nextProps.location.pathname) {
             this.props.fetchPosts(nextProps.match.params.pageNum || 1);
             this.props.dispatch({
@@ -25,10 +26,6 @@ class Blog extends Component {
                 payload: nextProps.match
             });
         }
-    }
-
-    componentDidUpdate() {
-        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
     }
 
     render() {

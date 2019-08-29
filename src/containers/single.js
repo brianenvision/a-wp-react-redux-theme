@@ -8,18 +8,16 @@ import Main from '../components/main';
 import Footer from '../components/footer';
 
 class Single extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.fetchPost(this.props.location.pathname);
     }
 
-    componentWillReceiveProps(nextProps) {
+
+    componentDidUpdate(nextProps) {
+        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
         if (this.props.location.pathname !== nextProps.location.pathname) {
             this.props.fetchPost(nextProps.location.pathname);
         }
-    }
-
-    componentDidUpdate() {
-        document.title = `${RT_API.siteName} - ${RT_API.siteDescription}`;;
     }
 
     render() {

@@ -9,7 +9,7 @@ import Main from '../components/main';
 import Footer from '../components/footer';
 
 class Category extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.getTaxIdFromSlug('tags', this.props.match.params.slug);
         this.props.dispatch({
             type: ROUTER,
@@ -17,7 +17,12 @@ class Category extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
+        let title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
+        if (this.props.tags.length) {
+            title = `${this.props.tags[0].name} - ${RT_API.siteName}`;
+        }
+        document.title = title;
         if (this.props.match.params.slug !== nextProps.match.params.slug) {
             this.props.getTaxIdFromSlug('tags', nextProps.match.params.slug);
         }
@@ -29,14 +34,7 @@ class Category extends Component {
             type: ROUTER,
             payload: this.props.match
         });
-    }
 
-    componentDidUpdate() {
-        let title = `${RT_API.siteName} - ${RT_API.siteDescription}`;
-        if (this.props.tags.length) {
-            title = `${this.props.tags[0].name} - ${RT_API.siteName}`;
-        }
-        document.title = title;
     }
 
     render() {

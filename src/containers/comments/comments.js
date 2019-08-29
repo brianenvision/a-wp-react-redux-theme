@@ -7,7 +7,7 @@ import Comment from '../../components/main/article/comment';
 import CommentForm from './comment-form';
 
 class Comments extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		this.props.fetchComments(this.props.pId);
 	}
 
