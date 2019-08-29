@@ -20,7 +20,7 @@ class Menu extends Component {
                 return (
                     <li key={item.ID} className="nav-item">
                         <Link className="nav-link" to={Menu.getRelativeUrl(item.url)}>{item.title}</Link>
-                    </li>
+                    </li> 
                 );
             });
         }
@@ -45,14 +45,17 @@ class Menu extends Component {
         }
     }
 
-    parseClasses(classes, LinkModClasses, iconClasses, depth) {
+    parseClasses(classes, depth) {
+        let linkModClasses = [];
+        let iconClasses = [];
+        depth = depth || 0;
         for (let index in classes) {
             let className = classes[index];
             if (/^disabled|^sr-only/i.test(className)) {
-                LinkModClasses.push(className);
+                linkModClasses.push(className);
                 classes.splice(index, 1);
             } else if (/^dropdown-header|^dropdown-divider|^dropdown-item-text/i.test(className) && depth > 0) {
-                LinkModClasses.push(className);
+                linkModClasses.push(className);
                 classes.splice(index, 1);
             } else if (/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i.test(className)) {
                 iconClasses.push(className);
@@ -62,16 +65,21 @@ class Menu extends Component {
                 classes.splice(index, 1);
             }
         }
+        return {
+            Classes : classes,
+            LinkModClasses : linkModClasses,
+            IconClasses : iconClasses
+        }
     }
 
     render() {
-        console.log("MENU",this.props)
+        console.log("MENU",this.props);
         return (
-            <ul className={this.getClasses(this.props.menu.name)}>
+            <ul className={this.props.className}>
                 {this.renderMenu(this.props.menu)}
             </ul>
         );
-    }
+    } 
 }
 
 function mapStateToProps({menu}) {
